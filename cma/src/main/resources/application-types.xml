@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="sample1" format="json">
+      <types:shape format="weave" example="examples/sample.json"><![CDATA[%dw 2.0
+
+type sample1 = {|
+  id: Number {"typeId": "int"}, 
+  first: String, 
+  last: String, 
+  department: String
+|} {"example": "{\"id\":212,\"first\":\"First\",\"last\":\"Last\",\"department\":\"CoolGroup\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#e222b95f-09be-4780-b3e7-270e4c3b5286">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="sample1"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#3e982420-e5d1-4b32-9cc6-09be86b09c22"/>
+</types:mule>
