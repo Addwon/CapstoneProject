@@ -24,4 +24,13 @@ type sample1 = {|
     </types:processor-declaration>
   </types:enrichment>
   <types:enrichment select="#3e982420-e5d1-4b32-9cc6-09be86b09c22"/>
+  <types:enrichment select="#0e96bc50-db58-423e-9e6a-136404b7d48c">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="sample1"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
 </types:mule>

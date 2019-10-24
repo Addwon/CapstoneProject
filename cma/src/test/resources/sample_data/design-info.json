@@ -5,6 +5,9 @@
     },
     "f9023acb-2cd5-4b99-8228-f41612c02cdd": {
       "attributes": "sample_data/object.dwl"
+    },
+    "0e96bc50-db58-423e-9e6a-136404b7d48c": {
+      "payload": "sample_data/object_2.dwl"
     }
   }
 }

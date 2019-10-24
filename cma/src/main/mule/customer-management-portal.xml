@@ -215,27 +215,36 @@ ns ns0 http://www.craftsoftware.com/users
 		<logger level="INFO" doc:name="Logger" doc:id="cb8720b7-7ad8-4177-b5b7-3f429d22f0dd" />
     </flow>
     <flow name="get:\users\(id):customer-management-portal-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" doc:id="4b194df8-4665-4682-9d33-01e1c966c4d9">
             <ee:variables>
-                <ee:set-variable variableName="id">attributes.uriParams.id</ee:set-variable>
+                <ee:set-variable variableName="id"><![CDATA[attributes.uriParams.id]]></ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+		<ee:transform doc:name="Transform Message" doc:id="d74107e6-d801-4c82-8c28-0d055b744d62" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.craftsoftware.com/users
+---
+{
+	ns0#GetUserRequest: {
+		ns0#id: vars.id as Number
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume operation="GetUser" doc:name="Consume" doc:id="2b8d4c81-53e6-4a0f-a42f-951f5d3b2260" config-ref="Web_Service_Consumer_Config"/>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="0e96bc50-db58-423e-9e6a-136404b7d48c">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{
-  id: 1,
-  first: "Adam",
-  last: "Bob",
-  department: "IIB"
-}]]></ee:set-payload>
+payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
     </flow>
     <flow name="post:\users:customer-management-portal-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="093ba573-d055-42fe-8ffc-f5724c084e93">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -248,5 +257,23 @@ output application/json
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="82ee1bf9-bccb-4b2b-a5d4-6bda15216557" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.craftsoftware.com/users
+---
+{
+	ns0#CreateUserRequest: {
+		ns0#CreateUser: {
+			ns0#fist: payload.first,
+			ns0#last: payload.last,
+			ns0#department: payload.department
+		}
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<wsc:consume operation="CreateUser" doc:name="Consume" doc:id="1a72754b-f298-4dc7-8775-dfacfbce91b3" config-ref="Web_Service_Consumer_Config"/>
     </flow>
 </mule>
